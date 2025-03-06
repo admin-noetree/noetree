@@ -18,6 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
+import ConditionChecker from "./helpers/ConditionChecker";
 
 interface NoteTreeProps {
   tree: Note;
@@ -113,7 +114,7 @@ export default function NotesTree({
   const renderNote = (note: Note) => {
     return (
       <>
-        {renamingNoteId === note.id ? (
+        <ConditionChecker condition={renamingNoteId === note.id}>
           <Input
             type="text"
             value={editedTitle}
@@ -122,7 +123,9 @@ export default function NotesTree({
             onBlur={() => saveRenamedNote(note)}
             autoFocus
           />
-        ) : (
+        </ConditionChecker>
+
+        <ConditionChecker condition={renamingNoteId !== note.id}>
           <ContextMenu>
             <ContextMenuTrigger>
               <Button
@@ -146,23 +149,24 @@ export default function NotesTree({
               <ContextMenuItem onClick={() => handleStartRenamingNote(note)}>
                 Rename
               </ContextMenuItem>
-              {note.id !== tree.id && (
+              <ConditionChecker condition={note.id !== tree.id}>
                 <ContextMenuItem
                   variant="destructive"
                   onClick={() => setNoteToDelete(note.id)}
                 >
                   Delete
                 </ContextMenuItem>
-              )}
+              </ConditionChecker>
             </ContextMenuContent>
           </ContextMenu>
-        )}
+        </ConditionChecker>
+
         <ul className="flex flex-col items-start gap-4 mt-4 border-l-2 border-gray-200 pl-6">
           {note.childNotes?.map((childNote) => (
             <li key={childNote.id}>{renderNote(childNote)}</li>
           ))}
           <li>
-            {editingNoteId === note.id ? (
+            <ConditionChecker condition={editingNoteId === note.id}>
               <Input
                 ref={addNoteInputRef}
                 type="text"
@@ -173,14 +177,16 @@ export default function NotesTree({
                 placeholder="Note title"
                 autoFocus
               />
-            ) : (
+            </ConditionChecker>
+
+            <ConditionChecker condition={editingNoteId !== note.id}>
               <Button
                 variant="outline"
                 onClick={() => handleStartAddingNote(note.id)}
               >
                 Add child note
               </Button>
-            )}
+            </ConditionChecker>
           </li>
         </ul>
       </>
