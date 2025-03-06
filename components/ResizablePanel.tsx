@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback, KeyboardEvent } from "react";
 import Cookies from "js-cookie";
+import { cn } from "@/lib/utils";
+import ConditionChecker from "./helpers/ConditionChecker";
 
 interface ResizablePanelProps {
   leftPanel: React.ReactNode;
@@ -103,27 +105,26 @@ export default function ResizablePanel({
 
   return (
     <div className="w-full h-screen flex">
-      {cookiesLoaded && (
-        <>
-          <div className="h-full grow-1 p-4 overflow-auto">{leftPanel}</div>
-          <button
-            type="button"
-            className={`w-[8px] hover:w-[16px] bg-gray-200 hover:bg-gray-300 cursor-ew-resize transition-all ${
-              isResizing ? "bg-blue-400 w-[16px]" : ""
-            } focus:outline-none focus:bg-blue-400 focus:w-[16px]`}
-            onMouseDown={startResizing}
-            onKeyDown={handleKeyDown}
-            aria-label="Resize panels (use left/right arrow keys to resize)"
-            title="Use left/right arrow keys to resize"
-          />
-          <div
-            className="h-full p-4 overflow-auto"
-            style={{ flex: `0 1 ${rightPanelWidth}%` }}
-          >
-            {rightPanel}
-          </div>
-        </>
-      )}
+      <ConditionChecker condition={cookiesLoaded}>
+        <div className="h-full grow-1 p-4 overflow-auto">{leftPanel}</div>
+        <button
+          type="button"
+          className={cn(
+            "w-[8px] hover:w-[16px] bg-gray-200 hover:bg-gray-300 cursor-ew-resize transition-all focus:outline-none focus:bg-blue-400 focus:w-[16px]",
+            isResizing && "bg-blue-400 w-[16px]"
+          )}
+          onMouseDown={startResizing}
+          onKeyDown={handleKeyDown}
+          aria-label="Resize panels (use left/right arrow keys to resize)"
+          title="Use left/right arrow keys to resize"
+        />
+        <div
+          className="h-full p-4 overflow-auto"
+          style={{ flex: `0 1 ${rightPanelWidth}%` }}
+        >
+          {rightPanel}
+        </div>
+      </ConditionChecker>
     </div>
   );
 }
