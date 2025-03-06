@@ -116,7 +116,6 @@ export default function NotesTree({
         {renamingNoteId === note.id ? (
           <Input
             type="text"
-            className="w-unset"
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
             onKeyDown={(e) => handleRenameKeyDown(e, note)}
@@ -158,7 +157,7 @@ export default function NotesTree({
             </ContextMenuContent>
           </ContextMenu>
         )}
-        <ul className="space-y-4 mt-4 border-l-2 border-gray-200 pl-6">
+        <ul className="flex flex-col items-start gap-4 mt-4 border-l-2 border-gray-200 pl-6">
           {note.childNotes?.map((childNote) => (
             <li key={childNote.id}>{renderNote(childNote)}</li>
           ))}
