@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, KeyboardEvent } from "react";
 import Cookies from "js-cookie";
+import { cn } from "@/lib/utils";
 
 interface ResizablePanelProps {
   leftPanel: React.ReactNode;
@@ -108,9 +109,10 @@ export default function ResizablePanel({
           <div className="h-full grow-1 p-4 overflow-auto">{leftPanel}</div>
           <button
             type="button"
-            className={`w-[8px] hover:w-[16px] bg-gray-200 hover:bg-gray-300 cursor-ew-resize transition-all ${
-              isResizing ? "bg-blue-400 w-[16px]" : ""
-            } focus:outline-none focus:bg-blue-400 focus:w-[16px]`}
+            className={cn(
+              "w-[8px] hover:w-[16px] bg-gray-200 hover:bg-gray-300 cursor-ew-resize transition-all focus:outline-none focus:bg-blue-400 focus:w-[16px]",
+              isResizing && "bg-blue-400 w-[16px]"
+            )}
             onMouseDown={startResizing}
             onKeyDown={handleKeyDown}
             aria-label="Resize panels (use left/right arrow keys to resize)"
