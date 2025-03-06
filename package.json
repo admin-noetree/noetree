@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "js-cookie": "^3.0.5",
+    "@clerk/nextjs": "^6.12.4",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
