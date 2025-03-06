@@ -130,7 +130,7 @@ export default function NotesTree({
             <ContextMenuTrigger>
               <Button
                 type="button"
-                variant={selectedNote.id === note.id ? "default" : "ghost"}
+                variant={selectedNote.id === note.id ? "default" : "secondary"}
                 onClick={() => onSelectNote(note)}
                 onDoubleClick={() => handleStartRenamingNote(note)}
               >
