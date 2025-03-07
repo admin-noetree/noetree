@@ -1,4 +1,5 @@
 import { Note } from "@/types/notes";
+import Editor from "./Editor";
 
 interface NoteContentProps {
   note: Note;
@@ -6,9 +7,11 @@ interface NoteContentProps {
 
 export default function NoteContent({ note }: Readonly<NoteContentProps>) {
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">{note.title}</h2>
-      <div>{note.content}</div>
+    <div className="min-h-full flex flex-col gap-4">
+      <h2 className="text-2xl font-bold">{note.title}</h2>
+      <div className="grow flex flex-col gap-4">
+        <Editor content={note.content} />
+      </div>
     </div>
   );
 }

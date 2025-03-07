@@ -1,25 +1,25 @@
-import { Note } from '@/types/notes';
+import { Note } from "@/types/notes";
 
 export const sampleNotes: Note[] = [
   {
     id: 1,
     title: "Main Note",
-    content: "This is the main note",
+    content: "",
     notes: [
       {
         id: 2,
         title: "First Sub Note",
-        content: "This is the first sub note",
+        content: "",
       },
       {
         id: 3,
         title: "Second Sub Note",
-        content: "This is another sub note",
+        content: "",
         notes: [
           {
             id: 4,
             title: "First Sub Sub Note",
-            content: "This is a detailed sub sub note",
+            content: "",
           },
         ],
       },
