@@ -1,13 +1,13 @@
-import { Note } from "@/types/note";
-import { useState, useRef, useEffect } from "react";
+import { Note } from '@/types/note'
+import { useState, useRef, useEffect } from 'react'
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "./ui/context-menu";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+} from './ui/context-menu'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,16 +17,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "./ui/alert-dialog";
-import ConditionChecker from "./helpers/ConditionChecker";
+} from './ui/alert-dialog'
+import ConditionChecker from './helpers/ConditionChecker'
 
 interface NoteTreeProps {
-  tree: Note;
-  selectedNote: Note;
-  onSelectNote: (note: Note) => void;
-  onUpdateNoteTitle: (noteId: number, newTitle: string) => void;
-  onAddChildNote: (parentId: number, newNote: Note) => void;
-  onDeleteNote: (noteId: number) => void;
+  tree: Note
+  selectedNote: Note
+  onSelectNote: (note: Note) => void
+  onUpdateNoteTitle: (noteId: number, newTitle: string) => void
+  onAddChildNote: (parentId: number, newNote: Note) => void
+  onDeleteNote: (noteId: number) => void
 }
 
 export default function NotesTree({
@@ -37,16 +37,16 @@ export default function NotesTree({
   onAddChildNote,
   onDeleteNote,
 }: Readonly<NoteTreeProps>) {
-  const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
-  const [newNoteTitle, setNewNoteTitle] = useState("");
-  const [renamingNoteId, setRenamingNoteId] = useState<number | null>(null);
-  const [editedTitle, setEditedTitle] = useState("");
-  const [noteToDelete, setNoteToDelete] = useState<number | null>(null);
+  const [editingNoteId, setEditingNoteId] = useState<number | null>(null)
+  const [newNoteTitle, setNewNoteTitle] = useState('')
+  const [renamingNoteId, setRenamingNoteId] = useState<number | null>(null)
+  const [editedTitle, setEditedTitle] = useState('')
+  const [noteToDelete, setNoteToDelete] = useState<number | null>(null)
   const [pendingFocusNoteId, setPendingFocusNoteId] = useState<number | null>(
     null
-  );
+  )
 
-  const addNoteInputRef = useRef<HTMLInputElement>(null);
+  const addNoteInputRef = useRef<HTMLInputElement>(null)
 
   // Add this effect to handle focus when the menu closes
   useEffect(() => {
@@ -54,62 +54,62 @@ export default function NotesTree({
       // Focus the input after the component has been fully rendered
       setTimeout(() => {
         if (addNoteInputRef.current) {
-          addNoteInputRef.current.focus();
+          addNoteInputRef.current.focus()
         }
-      }, 0);
-      setPendingFocusNoteId(null);
+      }, 0)
+      setPendingFocusNoteId(null)
     }
-  }, [editingNoteId, pendingFocusNoteId]);
+  }, [editingNoteId, pendingFocusNoteId])
 
   const addChildNote = (note: Note) => {
-    if (newNoteTitle.trim() === "") return;
+    if (newNoteTitle.trim() === '') return
 
-    const newNote = { id: Date.now(), title: newNoteTitle, content: "" };
-    onAddChildNote(note.id, newNote);
-    setNewNoteTitle("");
-    setEditingNoteId(null);
-  };
+    const newNote = { id: Date.now(), title: newNoteTitle, content: '' }
+    onAddChildNote(note.id, newNote)
+    setNewNoteTitle('')
+    setEditingNoteId(null)
+  }
 
   const handleStartAddingNote = (noteId: number) => {
-    setEditingNoteId(noteId);
-    setPendingFocusNoteId(noteId);
-    setNewNoteTitle("");
-  };
+    setEditingNoteId(noteId)
+    setPendingFocusNoteId(noteId)
+    setNewNoteTitle('')
+  }
 
   const handleStartRenamingNote = (note: Note) => {
-    setRenamingNoteId(note.id);
-    setEditedTitle(note.title);
-  };
+    setRenamingNoteId(note.id)
+    setEditedTitle(note.title)
+  }
 
   const saveRenamedNote = (note: Note) => {
-    if (editedTitle.trim() === "") return;
-    onUpdateNoteTitle(note.id, editedTitle);
-    setRenamingNoteId(null);
-  };
+    if (editedTitle.trim() === '') return
+    onUpdateNoteTitle(note.id, editedTitle)
+    setRenamingNoteId(null)
+  }
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     note: Note
   ) => {
-    if (e.key === "Enter") {
-      addChildNote(note);
+    if (e.key === 'Enter') {
+      addChildNote(note)
     }
-    if (e.key === "Escape") {
-      setEditingNoteId(null);
+    if (e.key === 'Escape') {
+      setEditingNoteId(null)
     }
-  };
+  }
 
   const handleRenameKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     note: Note
   ) => {
-    if (e.key === "Enter") {
-      saveRenamedNote(note);
+    if (e.key === 'Enter') {
+      saveRenamedNote(note)
     }
-    if (e.key === "Escape") {
-      setRenamingNoteId(null);
+    if (e.key === 'Escape') {
+      setRenamingNoteId(null)
     }
-  };
+  }
 
   const renderNote = (note: Note) => {
     return (
@@ -130,7 +130,7 @@ export default function NotesTree({
             <ContextMenuTrigger>
               <Button
                 type="button"
-                variant={selectedNote.id === note.id ? "default" : "secondary"}
+                variant={selectedNote.id === note.id ? 'default' : 'secondary'}
                 onClick={() => onSelectNote(note)}
                 onDoubleClick={() => handleStartRenamingNote(note)}
               >
@@ -140,7 +140,7 @@ export default function NotesTree({
             <ContextMenuContent
               onFocusOutside={(e) => e.preventDefault()}
               onCloseAutoFocus={(event) => {
-                event.preventDefault();
+                event.preventDefault()
               }}
             >
               <ContextMenuItem onClick={() => handleStartAddingNote(note.id)}>
@@ -190,8 +190,8 @@ export default function NotesTree({
           </li>
         </ul>
       </>
-    );
-  };
+    )
+  }
 
   return (
     <div>
@@ -217,8 +217,8 @@ export default function NotesTree({
             <AlertDialogAction
               onClick={() => {
                 if (noteToDelete) {
-                  onDeleteNote(noteToDelete);
-                  setNoteToDelete(null);
+                  onDeleteNote(noteToDelete)
+                  setNoteToDelete(null)
                 }
               }}
             >
@@ -228,5 +228,5 @@ export default function NotesTree({
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  );
+  )
 }
