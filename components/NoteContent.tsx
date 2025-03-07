@@ -1,4 +1,4 @@
-import { Note } from "@/types/notes";
+import { Note } from "@/types/note";
 import Editor from "./Editor";
 
 interface NoteContentProps {

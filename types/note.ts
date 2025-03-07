@@ -4,5 +4,5 @@ export interface Note {
   id: number;
   title: string;
   content: Content;
-  notes?: Note[];
+  childNotes?: Note[];
 }
