@@ -34,7 +34,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: next start
-          wait-on: 'https://localhost:3000'
+          wait-on: 'http://localhost:3000'
           record: true
           parallel: true
         env:
